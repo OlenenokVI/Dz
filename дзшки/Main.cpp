@@ -83,7 +83,7 @@ int main()
 	{
 		std::cout << "\nДиапазон слишком мал! \n\n";
 		return 0;
-	}
+	} 
 
 	for (size_t i = month1 - 1; i < month2 - 1; i++)
 	{
