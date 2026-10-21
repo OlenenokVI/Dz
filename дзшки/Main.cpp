@@ -1,149 +1,379 @@
 #include <iostream>
 #include <Windows.h>
 
+int Visokos(int year1, int year2)
+{
+	int visokosnye = 0;
+	if (year1 < year2)
+	{
+		for (size_t i = 1; i < (year2 - year1); i++)
+		{
+			if (year1 + i % 400 == 0 || (year1 + i % 4 == 0 && year1 + i % 100 != 0))
+			{
+				visokosnye++;
+			}
+		}
+	}
+	else if (year2 < year1)
+	{
+		for (size_t i = 1; i < (year1 - year2); i++)
+		{
+			if (year2 + i % 400 == 0 || (year2 + i % 4 == 0 && year2 + i % 100 != 0))
+			{
+				visokosnye++;
+			}
+		}
+	}
+	return visokosnye;
+
+}
+
+int Raznost_of_days(int day1, int month1, int year1, int day2, int month2, int year2) 
+{
+	int total = 0;
+	int day_of_month1 = 0;
+	int day_of_month2 = 0;
+	for (size_t i = month1; i <= month1; i++)
+	{
+		if (i == 01 || i ==  03 || i == 05 || i == 07 || i == 8 || i == 10 || i == 12)
+		{
+			day_of_month1 += 31;
+		}
+		else if (i == '02' && (year1 + i % 400 == 0 || (year1 + i % 4 == 0 && year1 + i % 100 != 0)))
+		{
+			day_of_month1 += 29;
+		}
+		else if (i == '02' && (year1 + i % 400 != 0 || (year1 + i % 4 != 0 || year1 + i % 100 == 0)))
+		{
+			day_of_month1 += 28;
+		}
+		else
+		{
+			day_of_month1 += 30;
+		}
+	}
+	for (size_t i = month2; i <= month2; i++)
+	{
+		if (i == 01 || i == 03 || i == 05 || i == 07 || i == 8 || i == 10 || i == 12)
+		{
+			day_of_month2 += 31;
+		}
+		else if (i == '02' && (year2 + i % 400 == 0 || (year2 + i % 4 == 0 && year2 + i % 100 != 0)))
+		{
+			day_of_month2 += 29;
+		}
+		else if (i == '02' && (year2 + i % 400 != 0 || (year2 + i % 4 != 0 || year2 + i % 100 == 0)))
+		{
+			day_of_month2 += 28;
+		}
+		else
+		{
+			day_of_month2 += 30;
+		}
+	}
+
+	if (year1 <= year2)
+	{
+		total = (year2 - year1) * 365 + Visokos(year1, year2)
+			+ (day_of_month2 * (month2) - day_of_month1 * (month1)) + (day2 - day1);
+	}
+	else
+	{
+		total = (year1 - year2) * 365 + Visokos(year1, year2)
+			+ (day_of_month1 * (month1) - day_of_month2 * (month2)) + (day1 - day2);
+	}
+	return total;
+}
+
+double Arifmetich(int size, double m[]) {
+	double sum = 0;
+	for (int i = 0; i < size; i++) {
+		sum += m[i];
+	}
+	return sum / size;
+}
+
+void What_znak(int size, double m[]) {
+	int plus = 0, minus = 0, nul = 0;
+	for (int i = 0; i < size; i++)
+	{
+		if (m[i] > 0)
+		{
+			plus++;
+		}
+		else if (m[i] < 0)
+		{
+			minus++;
+		}
+		else
+		{
+			nul++;
+		}
+	}
+	std::cout << "\nКол-во положительных элементов: " << plus;
+	std::cout << "\nКол-во отрицательных элементов: " << minus;
+	std::cout << "\nКол-во нулевых элементов: " << nul << "\n\n";
+}
+
+
 int main()
 {
 	SetConsoleCP(CP_UTF8);
 	SetConsoleOutputCP(CP_UTF8);
 
-	// 1
-	std::cout << "\tЗадание 1\n";
-	const int size = 10;
-	int a[size], min = 0, max = 0;
+	int dz;
+	std::cout << "\tВыберите домашку\n";
+	std::cout << "1)  Массивы от 24.09\n";
+	std::cout << "2)  Функции от 01.10\n\n";
+	std::cin >> dz;
 
-	for (size_t i = 0; i < size; i++)
+	if (dz == 1)
 	{
-		a[i] = rand() % 15 + 1;
-		if (min == 0)
-		{
-			min = a[i];
-		}
-		if (a[i] < min) {
-			min = a[i];
-		}
-		if (a[i] > max) {
-			max = a[i];
-		}
-		std::cout << a[i] << " ";
-	}
-	std::cout << "\n" << "Минимальное: " << min << "\n";
-	std::cout << "Максимальное: " << max << "\n\n";
+		system("cls");
 
-	// 2
-	std::cout << "\tЗадание 2\n";
-	const int Size = 20;
-	int b[Size], sum = 0, low = 0, high = 0, limit = 0;
+		// 1
+		std::cout << "\tЗадание 1\n";
+		const int size = 10;
+		int a[size], min = 0, max = 0;
 
-	std::cout << "Введите нижний диапазон: ";
-	std::cin >> low;
-	std::cout << "\nВведите верхний диапазон: ";
-	std::cin >> high;
-	if (high < low)
-	{
-		std::cout << "\nНеккоректный ввод! \n\n";
-		return 0;
-	}
-	std::cout << "\nВведите лимитное значение: ";
-	std::cin >> limit;
-	if (limit > high || limit < low)
-	{
-		std::cout << "\nЛимит не в рамках диапазона! \n";
-	}
+		for (size_t i = 0; i < size; i++)
+		{
+			a[i] = rand() % 15 + 1;
+			if (min == 0)
+			{
+				min = a[i];
+			}
+			if (a[i] < min) {
+				min = a[i];
+			}
+			if (a[i] > max) {
+				max = a[i];
+			}
+			std::cout << a[i] << " ";
+		}
+		std::cout << "\n" << "Минимальное: " << min << "\n";
+		std::cout << "Максимальное: " << max << "\n\n";
 
-	for (size_t i = 0; i < Size; i++)
-	{
-		b[i] = rand() % (high - low) + low;
-		if (b[i] < limit)
-		{
-			sum += b[i];
-		}
-		std::cout << b[i] << " ";
-	}
-	std::cout << "\nСумма элементов: " << sum << "\n";
+		// 2
+		std::cout << "\tЗадание 2\n";
+		const int Size = 20;
+		int b[Size], sum = 0, low = 0, high = 0, limit = 0;
 
-	// 3
-	std::cout << "\tЗадание 3\n";
-	int dohod[12], month1 = 0, month2 = 0, Max = 0, Min = 0, monthMin = 0, monthMax = 0;
-	std::cout << "Введите прибыль за год: ";
-	for (size_t i = 0; i < 12; i++)
-	{
-		std::cout << "Month " << i + 1 << ": ";
-		std::cin >> dohod[i];
-	}
-	std::cout << "Введите с какого месяца: ";
-	std::cin >> month1;
-	std::cout << "Введите до какого месяца: ";
-	std::cin >> month2;
-	if (month2 < month1)
-	{
-		std::cout << "\nНеккоректный ввод! \n\n";
-		return 0;
-	}
-	else if (month1 == month2)
-	{
-		std::cout << "\nДиапазон слишком мал! \n\n";
-		return 0;
-	} 
+		std::cout << "Введите нижний диапазон: ";
+		std::cin >> low;
+		std::cout << "\nВведите верхний диапазон: ";
+		std::cin >> high;
+		if (high < low)
+		{
+			std::cout << "\nНеккоректный ввод! \n\n";
+			return 0;
+		}
+		std::cout << "\nВведите лимитное значение: ";
+		std::cin >> limit;
+		if (limit > high || limit < low)
+		{
+			std::cout << "\nЛимит не в рамках диапазона! \n";
+		}
 
-	for (size_t i = month1 - 1; i < month2 - 1; i++)
-	{
-		if (Min == 0 || Min > dohod[i])
+		for (size_t i = 0; i < Size; i++)
 		{
-			Min = dohod[i];
-			monthMin = i + 1;
+			b[i] = rand() % (high - low) + low;
+			if (b[i] < limit)
+			{
+				sum += b[i];
+			}
+			std::cout << b[i] << " ";
 		}
-		if (Max < dohod[i])
-		{
-			Max = dohod[i];
-			monthMax = i + 1;
-		}
-	}
-	std::cout << "\n" << "Месяц с минимальной прибылью: " << monthMin << "\n";
-	std::cout << "Месяц с максимальной прибылью: " << monthMax << "\n\n";
+		std::cout << "\nСумма элементов: " << sum << "\n";
 
-	// 4
-	std::cout << "\tЗадание 4";
-	int sales[3], salaries[3], sale = 0, salary = 0, best = 0, numberOfBest = 0;
-	for (size_t i = 0; i < 3; i++)
-	{
-		std::cout << "\nВведите уровень продаж менеджера " << i + 1 << ": ";
-		std::cin >> sale;
-		sales[i] = sale;
-		if (sales[i] < 500 && sales[i] > 0)
+		// 3
+		std::cout << "\tЗадание 3\n";
+		int dohod[12], month1 = 0, month2 = 0, Max = 0, Min = 0, monthMin = 0, monthMax = 0;
+		std::cout << "Введите прибыль за год: ";
+		for (size_t i = 0; i < 12; i++)
 		{
-			salary = 200 + (sales[i] / 100 * 3);
-			salaries[i] = salary;
+			std::cout << "Month " << i + 1 << ": ";
+			std::cin >> dohod[i];
 		}
-		else if (sales[i] >= 500 && sales[i] <= 1000)
+		std::cout << "Введите с какого месяца: ";
+		std::cin >> month1;
+		std::cout << "Введите до какого месяца: ";
+		std::cin >> month2;
+		if (month2 < month1)
 		{
-			salary = 200 + (sales[i] / 100 * 5);
-			salaries[i] = salary;
+			std::cout << "\nНеккоректный ввод! \n\n";
+			return 0;
 		}
-		else if (sales[i] > 1000)
+		else if (month1 == month2)
 		{
-			salary = 200 + (sales[i] / 100 * 8);
-			salaries[i] = salary;
+			std::cout << "\nДиапазон слишком мал! \n\n";
+			return 0;
 		}
-		else
-		{
-			std::cout << "\nНекорректный ввод! \n\n";
-		}
-		if (salaries[i] > best)
-		{
-			best = salaries[i];
-			numberOfBest = i + 1;
-		}
-	}
-	best += 200;
-	std::cout << "\n\nЛучший менеджер номер " << numberOfBest << ". Его зарплата: " << best << "$ \n\n";
-	for (size_t i = 0; i < 3; i++)
-	{
-		if (i != (numberOfBest - 1))
-		{
-			std::cout << "Зарплата менеджера " << i + 1 << " = " << salaries[i] << "$ \n";
-		}
-	}
 
+		for (size_t i = month1 - 1; i < month2 - 1; i++)
+		{
+			if (Min == 0 || Min > dohod[i])
+			{
+				Min = dohod[i];
+				monthMin = i + 1;
+			}
+			if (Max < dohod[i])
+			{
+				Max = dohod[i];
+				monthMax = i + 1;
+			}
+		}
+		std::cout << "\n" << "Месяц с минимальной прибылью: " << monthMin << "\n";
+		std::cout << "Месяц с максимальной прибылью: " << monthMax << "\n\n";
+
+		// 4
+		std::cout << "\tЗадание 4";
+		int sales[3], salaries[3], sale = 0, salary = 0, best = 0, numberOfBest = 0;
+		for (size_t i = 0; i < 3; i++)
+		{
+			std::cout << "\nВведите уровень продаж менеджера " << i + 1 << ": ";
+			std::cin >> sale;
+			sales[i] = sale;
+			if (sales[i] < 500 && sales[i] > 0)
+			{
+				salary = 200 + (sales[i] / 100 * 3);
+				salaries[i] = salary;
+			}
+			else if (sales[i] >= 500 && sales[i] <= 1000)
+			{
+				salary = 200 + (sales[i] / 100 * 5);
+				salaries[i] = salary;
+			}
+			else if (sales[i] > 1000)
+			{
+				salary = 200 + (sales[i] / 100 * 8);
+				salaries[i] = salary;
+			}
+			else
+			{
+				std::cout << "\nНекорректный ввод! \n\n";
+			}
+			if (salaries[i] > best)
+			{
+				best = salaries[i];
+				numberOfBest = i + 1;
+			}
+		}
+		best += 200;
+		std::cout << "\n\nЛучший менеджер номер " << numberOfBest << ". Его зарплата: " << best << "$ \n\n";
+		for (size_t i = 0; i < 3; i++)
+		{
+			if (i != (numberOfBest - 1))
+			{
+				std::cout << "Зарплата менеджера " << i + 1 << " = " << salaries[i] << "$ \n";
+			}
+		}
+	}
+	else if (dz == 2)
+	{
+		// 1
+		while (true)
+		{
+			system("cls");
+
+			std::cout << "\tЗадание 1\n";
+
+			int day1, day2, month1, month2, year1, year2, result = 0;
+			std::cout << "Введите первую дату\n";
+			std::cout << "число: ";
+			std::cin >> day1;
+			if (day1 > 31 || day1 < 1)
+			{
+				std::cout << "Некорректный ввод дня!\n";
+				Sleep(800);
+				continue;
+			}
+			std::cout << "месяц: ";
+			std::cin >> month1;
+			if (month1 > 12 || month1 < 1)
+			{
+				std::cout << "Некорректный ввод месяца!\n";
+				Sleep(800);
+				continue;
+			}
+			std::cout << "год: ";
+			std::cin >> year1;
+			if (year1 < 1)
+			{
+				std::cout << "Некорректный ввод года!\n";
+				Sleep(800);
+				continue;
+			}
+
+			std::cout << "Введите вторую дату\n";
+			std::cout << "число: ";
+			std::cin >> day2;
+			if (day2 > 31 || day2 < 1)
+			{
+				std::cout << "Некорректный ввод дня!\n";
+				Sleep(800);
+				continue;
+			}
+			std::cout << "месяц: ";
+			std::cin >> month2;
+			if (month2 > 12 || month2 < 1)
+			{
+				std::cout << "Некорректный ввод месяца!\n";
+				Sleep(800);
+				continue;
+			}
+			std::cout << "год: ";
+			std::cin >> year2;
+			if (year2 < 1)
+			{
+				std::cout << "Некорректный ввод года!\n";
+				Sleep(800);
+				continue;
+			}
+
+			Visokos(year1, year2);
+			result = Raznost_of_days(day1, month1, year1, day2, month2, year2);
+			std::cout << "Разность между датами составляет " << result << " дней\n\n";
+			break;
+		}
+
+		// 2
+
+		std::cout << "\tЗадание 2\n";
+
+		int const size = 5;
+		double number = 0;
+		double arr[size];
+		std::cout << "Введите 5 чисел: \n";
+		for (int i = 0; i < size; i++)
+		{
+			std::cin >> number;
+			std::cout << "\n";
+			arr[i] = number;
+		}
+		std::cout << "\n Ваше среднее арифметическое: " << Arifmetich(size, arr) << "\n\n";
+
+		// 3
+
+		std::cout << "\tЗадание 3\n";
+
+		double abc[size];
+		double Number = 0;
+		std::cout << "Введите 5 чисел: \n";
+		for (int i = 0; i < size; i++)
+		{
+			std::cin >> Number;
+			std::cout << "\n";
+			abc[i] = Number;
+		}
+		What_znak(size, abc);
+
+
+	}
+	else
+	{
+		std::cout << "\nНу проверьте домашку пж( \n\n";
+	}
 
 
 	/*  // задание 1
