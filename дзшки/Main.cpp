@@ -124,7 +124,8 @@ int main()
 	int dz;
 	std::cout << "\tВыберите домашку\n";
 	std::cout << "1)  Массивы от 24.09\n";
-	std::cout << "2)  Функции от 01.10\n\n";
+	std::cout << "2)  Функции от 01.10\n";
+	std::cout << "3)  Аэропорт от 30.09\n\n";
 	std::cin >> dz;
 
 	if (dz == 1)
@@ -367,6 +368,211 @@ int main()
 			abc[i] = Number;
 		}
 		What_znak(size, abc);
+
+
+	}
+	else if (dz == 3)
+	{
+		while (true)
+		{
+			system("cls");
+			std::cout << "\t Задача про 2 самолета\n\n";
+
+			int plane = 0, distance1 = 0, distance2 = 0, weight = 0, toplivo1 = 0, toplivo2 = 0, toplivo_afterB = 0;
+			int toplivo = 0, new_toplivo = 0;
+			int volume1 = 300, volume2 = 1000, bak = 100;
+			std::cout << "1) Маленький самолет\n";
+			std::cout << "2) Большой самолет\n";
+			std::cout << "Выберите номер самолета: \n";
+			std::cin >> plane;
+			if (plane == 1)
+			{
+				std::cout << "\nВведите расстояние между пунктами А и В: \n";
+				std::cin >> distance1;
+				std::cout << "\n Введите расстояние между пунктами B и C: \n";
+				std::cin >> distance2;
+				std::cout << "\nВведите вес груза: \n";
+				std::cin >> weight;
+
+				if (distance1 < 0 || distance2 < 0 || weight < 0)
+				{
+					std::cout << "\nОтрицательные значения не возможны \n";
+					Sleep(1200);
+					continue;
+				}
+
+				int plane1[2][3] = {
+					{ 750, 1500, 2000}, 
+					{ 1, 4, 7}  
+				};
+
+				for (int i = 0; i < 3; i++)
+				{
+					if (weight <= plane1[0][i])
+					{
+						toplivo1 = distance1 * plane1[1][i]; // А→В
+						toplivo2 = distance2 * plane1[1][i]; // В→С
+						break;
+					}
+				}
+
+				if (toplivo1 < 0)
+				{
+					std::cout << "\n Самолет столько не поднимет! \n";
+					Sleep(1200);
+					continue;
+				}
+
+				if (toplivo1 > volume1 + bak)
+				{
+					std::cout << "\n Полет по заданному маршруту не возможен!( \n"
+						<< " На А->В нужно " << toplivo1
+						<< " л, а на старте только " << volume1 + bak
+						<< " л.\n\n";
+					Sleep(1500);
+					continue;
+				}
+
+				
+				if (toplivo1 <= bak) {
+					bak = volume1;
+				}
+				else {
+					bak = volume1 - (toplivo1 - bak);
+				}
+
+				toplivo_afterB = bak;
+
+				std::cout << "\n" << toplivo_afterB << " - топливо после В\n";
+
+
+				if (toplivo2 > volume1)
+				{
+					std::cout << "\n Полет по заданному маршруту не возможен!( \n"
+						<< " На В->С нужно " << toplivo2
+						<< " л, а основной бак вмещает только "
+						<< volume1 << " л.\n\n";
+					Sleep(1500);
+					continue;
+				}
+
+				new_toplivo = toplivo2 - toplivo_afterB;
+				toplivo = toplivo_afterB + new_toplivo;
+
+				if (toplivo <= 0)
+				{
+					std::cout << "\n Полет по заданному маршруту не возможен!( \n\n";
+					Sleep(1200);
+					continue;
+				}
+				else
+				{
+					std::cout << "\n Полет возможен! В пункте В нужно дозаправить "
+						<< new_toplivo << " литров\n\n";
+					if (new_toplivo == 0)
+						std::cout << "(Дозаправка не требуется.)\n\n";
+				}
+
+				return 0;
+			}
+
+			else if (plane == 2)
+			{
+				std::cout << "Введите расстояние между пунктами А и В: \n";
+				std::cin >> distance1;
+				std::cout << "\n Введите расстояние между пунктами B и C: \n";
+				std::cin >> distance2;
+				std::cout << "\nВведите вес груза: \n";
+				std::cin >> weight;
+
+				if (distance1 < 0 || distance2 < 0 || weight < 0)
+				{
+					std::cout << "\nОтрицательные значения не возможны \n";
+					Sleep(1200);
+					continue;
+				}
+
+				int plane2[2][3] = {
+					{ 1000, 2000, 3000 },
+					{ 2, 4, 6 }
+				};
+
+				for (int i = 0; i < 3; i++)
+				{
+					if (weight <= plane2[0][i])
+					{
+						toplivo1 = distance1 * plane2[1][i];
+						toplivo2 = distance2 * plane2[1][i];
+						break;
+					}
+				}
+				if (toplivo1 < 0)
+				{
+					std::cout << "\n Самолет столько не поднимет! \n";
+					Sleep(1200);
+					continue;
+				}
+
+				if (toplivo1 > volume2 + bak)
+				{
+					std::cout << "\n Полет по заданному маршруту не возможен!( \n"
+						<< " На А->В нужно " << toplivo1
+						<< " л, а на старте только " << volume2 + bak
+						<< " л.\n\n";
+					Sleep(1500);
+					continue;
+				}
+
+				if (toplivo1 <= bak)
+					toplivo_afterB = volume2;
+				else
+					toplivo_afterB = volume2 - (toplivo1 - bak);
+
+				std::cout << "\n" << toplivo_afterB << " - топливо после В\n";
+
+				if (toplivo2 > volume2)
+				{
+					std::cout << "\n Полет по заданному маршруту не возможен!( \n"
+						<< " На В->С нужно " << toplivo2
+						<< " л, а основной бак вмещает только "
+						<< volume2 << " л.\n\n";
+					Sleep(1500);
+					continue;
+				}
+
+				
+				if (toplivo2 > toplivo_afterB)
+					new_toplivo = toplivo2 - toplivo_afterB;
+				else
+					new_toplivo = 0;
+
+				toplivo = toplivo_afterB + new_toplivo;
+
+				if (toplivo <= 0)
+				{
+					std::cout << "\n Полет по заданному маршруту не возможен!( \n\n";
+					Sleep(1200);
+					continue;
+				}
+
+				std::cout << "\n Полет возможен! В пункте В нужно дозаправить "
+					<< new_toplivo << " литров\n\n";
+				if (new_toplivo == 0)
+					std::cout << "(Дозаправка не требуется.)\n\n";
+
+				return 0;
+
+
+			}
+			else
+			{
+				std::cout << "Некорректный выбор самолета! \n\n";
+				Sleep(1500);
+				continue;
+			}
+
+		}
+		
 
 
 	}
